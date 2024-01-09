@@ -59,3 +59,74 @@ public class dbhelper extends SQLiteOpenHelper {
         return finalres;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public class MainActivity extends AppCompatActivity {
+    EditText uname,pass;
+    TextView txt;
+    Button ins,del,dis,upd;
+    dbhelper helper;
+    private static final String dbname="comp";
+    private static final String tbname = "employ";
+    private static final int dbversion =1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        uname=findViewById(R.id.uname);
+        pass=findViewById(R.id.pass);
+        ins=findViewById(R.id.ins);
+        del=findViewById(R.id.del);
+        dis=findViewById(R.id.dis);
+        upd=findViewById(R.id.upd);
+        txt=findViewById(R.id.txt);
+
+        ins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helper=new dbhelper(MainActivity.this,dbname,null,dbversion);
+                helper.addUser(uname.getText().toString(),pass.getText().toString());
+                Toast.makeText(MainActivity.this, "Inserted", Toast.LENGTH_SHORT).show();
+            }
+        });
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helper=new dbhelper(MainActivity.this,dbname,null,dbversion);
+                helper.delete(uname.getText().toString());
+            }
+        });
+        upd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helper=new dbhelper(MainActivity.this,dbname,null,dbversion);
+                helper.update(uname.getText().toString(),pass.getText().toString());
+            }
+        });
+        dis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helper=new dbhelper(MainActivity.this,dbname,null,dbversion);
+                String res= helper.display();
+                txt.setText(res);
+            }
+        });
+    }
+}
